@@ -6,7 +6,7 @@ import org.optaplanner.core.api.domain.variable.PlanningVariable;
 @PlanningEntity
 public class Client {
 
-    private Client id;
+    private Integer id;
 
     private AccountingAssociate accountingAssociate;
 
@@ -19,11 +19,11 @@ public class Client {
         this.accountingAssociate = accountingAssociate;
     }
 
-    public Client getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Client id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 }
