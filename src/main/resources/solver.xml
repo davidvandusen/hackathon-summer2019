@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <solver>
-  <solutionClass>com.tensheet.hackathon.summer2019.SeatingPlanSolution</solutionClass>
-  <entityClass>com.tensheet.hackathon.summer2019.Seat</entityClass>
+  <solutionClass>com.tensheet.hackathon.summer2019.ClientAssignmentSolution</solutionClass>
+  <entityClass>com.tensheet.hackathon.summer2019.Client</entityClass>
   <scoreDirectorFactory>
     <scoreDefinitionType>HARD_SOFT</scoreDefinitionType>
-    <easyScoreCalculatorClass>com.tensheet.hackathon.summer2019.SeatingPlanScoreCalculator</easyScoreCalculatorClass>
+    <easyScoreCalculatorClass>com.tensheet.hackathon.summer2019.ClientAssignmentScoreCalculator</easyScoreCalculatorClass>
   </scoreDirectorFactory>
   <termination>
     <minutesSpentLimit>1</minutesSpentLimit>
