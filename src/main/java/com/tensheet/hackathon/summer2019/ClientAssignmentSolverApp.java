@@ -13,7 +13,7 @@ public class ClientAssignmentSolverApp {
         @Override
         public void bestSolutionChanged(BestSolutionChangedEvent<ClientAssignmentSolution> event) {
             ClientAssignmentSolution newBestSolution = event.getNewBestSolution();
-            System.out.println("New best score: " + newBestSolution.getScore());
+            LOG.info("New best score: " + newBestSolution.getScore());
         }
     }
 
@@ -26,7 +26,7 @@ public class ClientAssignmentSolverApp {
         solver.addEventListener(newBestScoreListener);
         solver.solve(planningProblem);
         ClientAssignmentSolution solution = (ClientAssignmentSolution) solver.getBestSolution();
-        System.out.println("Final best score: " + solution.getScore());
+        LOG.info("Final best score: " + solution.getScore());
     }
 
 }
