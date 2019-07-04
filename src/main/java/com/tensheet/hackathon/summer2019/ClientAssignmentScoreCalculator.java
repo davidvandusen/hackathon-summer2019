@@ -37,6 +37,8 @@ public class ClientAssignmentScoreCalculator implements EasyScoreCalculator<Clie
         return 0;
     }
 
+    // TODO: distance from average clients per BK (based on tenure?)
+
     private int getHardScore(ClientAssignmentSolution solution) {
         int unassignedClients = (int) solution.getClients()
             .stream()

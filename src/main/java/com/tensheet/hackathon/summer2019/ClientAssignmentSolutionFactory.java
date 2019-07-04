@@ -9,11 +9,11 @@ import java.util.Set;
 
 public class ClientAssignmentSolutionFactory {
 
-    public static ClientAssignmentSolution createFromCsv(String clientCsvPath, String AccountAssociateCsvPath) throws IOException {
+    public static ClientAssignmentSolution createFromCsv(String clientCsvPath, String accountAssociateCsvPath) throws IOException {
         Reader clientReader = new InputStreamReader(ClientAssignmentSolutionFactory.class.getClassLoader().getResourceAsStream(clientCsvPath));
         Iterable<CSVRecord> clientRecords = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(clientReader);
 
-        Reader associateReader = new InputStreamReader(ClientAssignmentSolutionFactory.class.getClassLoader().getResourceAsStream(AccountAssociateCsvPath));
+        Reader associateReader = new InputStreamReader(ClientAssignmentSolutionFactory.class.getClassLoader().getResourceAsStream(accountAssociateCsvPath));
         Iterable<CSVRecord> associateRecords = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(associateReader);
 
         ClientAssignmentSolution solution = new ClientAssignmentSolution();
@@ -27,6 +27,13 @@ public class ClientAssignmentSolutionFactory {
         for (CSVRecord clientRecord: clientRecords) {
             Client client = new Client();
             client.setId(Integer.parseInt(clientRecord.get("id")));
+            client.setCompany(clientRecord.get("company"));
+            client.setStructure(clientRecord.get("structure"));
+            client.setState(clientRecord.get("state"));
+            client.setBenchVertical(clientRecord.get("bench_vertical_name"));
+            client.setChurnRisk(Boolean.parseBoolean(clientRecord.get("At risk?")));
+            client.setHasBookkeepingKnowledge(Boolean.parseBoolean(clientRecord.get("Bookkeeping savvy?")));
+            client.setTechSavvy(Boolean.parseBoolean(clientRecord.get("Tech savvy?")));
             clients.add(client);
         }
         return clients;

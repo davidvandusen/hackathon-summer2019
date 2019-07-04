@@ -1,12 +1,14 @@
 package com.tensheet.hackathon.summer2019;
 
-import java.util.Set;
-
 public class AccountingAssociate {
 
     private Integer id;
 
-    private Set<Client> clients;
+    private String email;
+
+    private Integer tenureDays;
+
+    private Double averageRetentionPercent;
 
     public Integer getId() {
         return id;
@@ -16,11 +18,27 @@ public class AccountingAssociate {
         this.id = id;
     }
 
-    public Set<Client> getClients() {
-        return clients;
+    public String getEmail() {
+        return email;
     }
 
-    public void setClients(Set<Client> clients) {
-        this.clients = clients;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Integer getTenureDays() {
+        return tenureDays;
+    }
+
+    public void setTenureDays(Integer tenureDays) {
+        this.tenureDays = tenureDays;
+    }
+
+    public Double getAverageRetentionPercent() {
+        return averageRetentionPercent;
+    }
+
+    public void setAverageRetentionPercent(Double averageRetentionPercent) {
+        this.averageRetentionPercent = averageRetentionPercent;
     }
 }
