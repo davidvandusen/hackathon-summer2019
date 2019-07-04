@@ -8,7 +8,16 @@ public class ClientAssignmentScoreCalculator implements EasyScoreCalculator<Clie
 
     @Override
     public Score calculateScore(ClientAssignmentSolution solution) {
-        return HardSoftScore.valueOf(0, 0);
+        int hardScore = getHardScore(solution);
+        return HardSoftScore.valueOf(hardScore, 0);
+    }
+
+    private int getHardScore(ClientAssignmentSolution solution) {
+        int unassignedClients = (int) solution.getClients()
+            .stream()
+            .filter(client -> client.getAccountingAssociate() == null)
+            .count();
+        return 0 - unassignedClients;
     }
 
 }
