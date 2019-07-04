@@ -1,5 +1,7 @@
 package com.tensheet.hackathon.summer2019;
 
+import java.util.Set;
+
 public class ClientAssignment {
 
     private Set<Client> clients;

@@ -7,6 +7,7 @@ import org.optaplanner.core.api.domain.valuerange.ValueRangeProvider;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 
 import java.util.Collection;
+import java.util.Set;
 
 @PlanningSolution
 public class ClientAssignmentSolution extends ClientAssignment implements Solution<HardSoftScore> {
