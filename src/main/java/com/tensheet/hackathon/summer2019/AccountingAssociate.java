@@ -1,10 +1,7 @@
 package com.tensheet.hackathon.summer2019;
 
-import org.optaplanner.core.api.domain.entity.PlanningEntity;
-
 import java.util.Set;
 
-@PlanningEntity
 public class AccountingAssociate {
 
     private Integer id;

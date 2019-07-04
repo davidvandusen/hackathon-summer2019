@@ -20,13 +20,13 @@ public class ClientAssignmentSolution extends ClientAssignment implements Soluti
     }
 
     @Override
-    @ValueRangeProvider(id = "guests")
+    @PlanningEntityCollectionProperty
     public Set<Client> getClients() {
         return super.getClients();
     }
 
     @Override
-    @PlanningEntityCollectionProperty
+    @ValueRangeProvider(id = "accounting-associates")
     public Set<AccountingAssociate> getAccountingAssociates() {
         return super.getAccountingAssociates();
     }
