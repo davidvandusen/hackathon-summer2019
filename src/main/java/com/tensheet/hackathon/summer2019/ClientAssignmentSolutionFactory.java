@@ -27,6 +27,7 @@ public class ClientAssignmentSolutionFactory {
         for (CSVRecord clientRecord: clientRecords) {
             Client client = new Client();
             client.setId(Integer.parseInt(clientRecord.get("id")));
+            clients.add(client);
         }
         return clients;
     }
@@ -36,6 +37,7 @@ public class ClientAssignmentSolutionFactory {
         for (CSVRecord associateRecord: associateRecords) {
             AccountingAssociate associate = new AccountingAssociate();
             associate.setId(Integer.parseInt(associateRecord.get("id")));
+            associates.add(associate);
         }
         return associates;
     }
