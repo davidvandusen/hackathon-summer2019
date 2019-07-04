@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<solver>
+  <solutionClass>com.tensheet.hackathon.summer2019.SeatingPlanSolution</solutionClass>
+  <entityClass>com.tensheet.hackathon.summer2019.Seat</entityClass>
+  <scoreDirectorFactory>
+    <scoreDefinitionType>HARD_SOFT</scoreDefinitionType>
+    <easyScoreCalculatorClass>com.tensheet.hackathon.summer2019.SeatingPlanScoreCalculator</easyScoreCalculatorClass>
+  </scoreDirectorFactory>
+  <termination>
+    <minutesSpentLimit>10</minutesSpentLimit>
+  </termination>
+  <constructionHeuristic>
+    <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
+  </constructionHeuristic>
+  <localSearch>
+    <acceptor>
+      <entityTabuSize>7</entityTabuSize>
+    </acceptor>
+    <forager>
+      <acceptedCountLimit>1000</acceptedCountLimit>
+    </forager>
+  </localSearch>
+</solver>
