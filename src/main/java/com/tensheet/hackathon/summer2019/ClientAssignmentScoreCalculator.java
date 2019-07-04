@@ -9,7 +9,32 @@ public class ClientAssignmentScoreCalculator implements EasyScoreCalculator<Clie
     @Override
     public Score calculateScore(ClientAssignmentSolution solution) {
         int hardScore = getHardScore(solution);
-        return HardSoftScore.valueOf(hardScore, 0);
+        int softScore = getSoftScore(solution);
+        return HardSoftScore.valueOf(hardScore, softScore);
+    }
+
+    private int getSoftScore(ClientAssignmentSolution solution) {
+        return 0
+            - getAssociatesPerIndustry(solution)
+            - getChurnyClientsWithChurnyAssociates(solution)
+            - getAssociatesWithExcessNonTechSavvyClients(solution)
+            - getAssociatesWithExcessNonBookkeepingKnowledgeableClients(solution);
+    }
+
+    public int getAssociatesWithExcessNonBookkeepingKnowledgeableClients(ClientAssignmentSolution solution) {
+        return 0;
+    }
+
+    public int getAssociatesWithExcessNonTechSavvyClients(ClientAssignmentSolution solution) {
+        return 0;
+    }
+
+    public int getChurnyClientsWithChurnyAssociates(ClientAssignmentSolution solution) {
+        return 0;
+    }
+
+    public int getAssociatesPerIndustry(ClientAssignmentSolution solution) {
+        return 0;
     }
 
     private int getHardScore(ClientAssignmentSolution solution) {

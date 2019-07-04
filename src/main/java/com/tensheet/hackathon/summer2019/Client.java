@@ -10,6 +10,10 @@ public class Client {
 
     private AccountingAssociate accountingAssociate;
 
+    private Boolean isTechSavvy;
+
+    private Boolean hasBookkeepingKnowledge;
+
     @PlanningVariable(valueRangeProviderRefs = {"accounting-associates"}, nullable = true)
     public AccountingAssociate getAccountingAssociate() {
         return accountingAssociate;
@@ -25,5 +29,21 @@ public class Client {
 
     public void setId(Client id) {
         this.id = id;
+    }
+
+    public Boolean getTechSavvy() {
+        return isTechSavvy;
+    }
+
+    public void setTechSavvy(Boolean techSavvy) {
+        isTechSavvy = techSavvy;
+    }
+
+    public Boolean getHasBookkeepingKnowledge() {
+        return hasBookkeepingKnowledge;
+    }
+
+    public void setHasBookkeepingKnowledge(Boolean hasBookkeepingKnowledge) {
+        this.hasBookkeepingKnowledge = hasBookkeepingKnowledge;
     }
 }
