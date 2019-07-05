@@ -62,6 +62,8 @@ public class ClientAssignmentSolutionFactory {
             AccountingAssociate associate = new AccountingAssociate();
             associate.setEmail(associateRecord.get("Company Email"));
             associate.setFullName(associateRecord.get("Full Name"));
+            associate.setAverageRetentionPercent(Double.parseDouble(associateRecord.get("Average Retention Rate")));
+            associate.setTenureDays(Integer.parseInt(associateRecord.get("Tenure (D)")));
             associates.add(associate);
         }
         return associates;
