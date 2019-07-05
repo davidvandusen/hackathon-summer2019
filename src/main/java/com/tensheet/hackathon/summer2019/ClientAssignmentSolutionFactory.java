@@ -17,15 +17,32 @@ public class ClientAssignmentSolutionFactory {
         Iterable<CSVRecord> associateRecords = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(associateReader);
 
         ClientAssignmentSolution solution = new ClientAssignmentSolution();
-        solution.setClients(buildClients(clientRecords));
-        solution.setAccountingAssociates(buildAssociates(associateRecords));
+        Set<AccountingAssociate> accountingAssociates = buildAssociates(associateRecords);
+        Set<Client> clients = buildClients(clientRecords, accountingAssociates);
+        solution.setClients(clients);
+        solution.setAccountingAssociates(accountingAssociates);
         return solution;
     }
 
-    private static Set<Client> buildClients(Iterable<CSVRecord> clientRecords) {
+    private static Set<Client> buildClients(Iterable<CSVRecord> clientRecords, Set<AccountingAssociate> accountingAssociates) {
         Set<Client> clients = new HashSet<>();
         for (CSVRecord clientRecord: clientRecords) {
             Client client = new Client();
+
+            // Make sure that the assigned associate exists. If not, don't add the client because it's probably not valid
+            // Why this is really done is because the construction heuristic was taking forever to just assign non-null
+            // associates to the clients, so this speeds up the initial phase so we get to the part of the demo that looks
+            // cool faster.
+            String aaFullName = clientRecord.get("bk1_fullname");
+            AccountingAssociate accountingAssociate = accountingAssociates.stream()
+                .filter(aa -> aaFullName.equals(aa.getFullName()))
+                .findAny()
+                .orElse(null);
+            if (accountingAssociate == null) {
+                continue;
+            }
+            client.setAccountingAssociate(accountingAssociate);
+
             client.setId(Integer.parseInt(clientRecord.get("id")));
             client.setCompany(clientRecord.get("company"));
             client.setStructure(clientRecord.get("structure"));
@@ -43,7 +60,8 @@ public class ClientAssignmentSolutionFactory {
         Set<AccountingAssociate> associates = new HashSet<>();
         for (CSVRecord associateRecord: associateRecords) {
             AccountingAssociate associate = new AccountingAssociate();
-            associate.setId(Integer.parseInt(associateRecord.get("id")));
+            associate.setEmail(associateRecord.get("Company Email"));
+            associate.setFullName(associateRecord.get("Full Name"));
             associates.add(associate);
         }
         return associates;

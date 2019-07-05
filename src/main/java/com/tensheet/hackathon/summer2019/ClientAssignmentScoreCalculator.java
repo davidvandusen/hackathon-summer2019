@@ -4,6 +4,9 @@ import org.optaplanner.core.api.score.Score;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.optaplanner.core.impl.score.director.easy.EasyScoreCalculator;
 
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 public class ClientAssignmentScoreCalculator implements EasyScoreCalculator<ClientAssignmentSolution> {
 
     @Override
@@ -15,10 +18,15 @@ public class ClientAssignmentScoreCalculator implements EasyScoreCalculator<Clie
 
     private int getSoftScore(ClientAssignmentSolution solution) {
         return 0
-            - getAssociatesPerIndustry(solution)
+            - getSumOfPortfolioSizeDeviationFromAverage(solution)
+            - getSumOfAssociatesPerIndustry(solution)
             - getChurnyClientsWithChurnyAssociates(solution)
             - getAssociatesWithExcessNonTechSavvyClients(solution)
             - getAssociatesWithExcessNonBookkeepingKnowledgeableClients(solution);
+    }
+
+    private int getSumOfPortfolioSizeDeviationFromAverage(ClientAssignmentSolution solution) {
+        return 0;
     }
 
     public int getAssociatesWithExcessNonBookkeepingKnowledgeableClients(ClientAssignmentSolution solution) {
@@ -33,16 +41,27 @@ public class ClientAssignmentScoreCalculator implements EasyScoreCalculator<Clie
         return 0;
     }
 
-    public int getAssociatesPerIndustry(ClientAssignmentSolution solution) {
-        return 0;
+    public int getSumOfAssociatesPerIndustry(ClientAssignmentSolution solution) {
+        return solution.getClients()
+            .stream()
+            .collect(Collectors.groupingBy(Client::getBenchVertical))
+            .values()
+            .stream()
+            .mapToInt(listOfClients ->
+                (int) listOfClients.stream()
+                    .map(Client::getAccountingAssociate)
+                    .filter(Objects::nonNull)
+                    .distinct()
+                    .count()
+            )
+            .sum();
     }
-
-    // TODO: distance from average clients per BK (based on tenure?)
 
     private int getHardScore(ClientAssignmentSolution solution) {
         int unassignedClients = (int) solution.getClients()
             .stream()
-            .filter(client -> client.getAccountingAssociate() == null)
+            .map(Client::getAccountingAssociate)
+            .filter(Objects::isNull)
             .count();
         return 0 - unassignedClients;
     }

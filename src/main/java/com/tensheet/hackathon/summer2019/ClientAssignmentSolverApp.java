@@ -20,8 +20,9 @@ public class ClientAssignmentSolverApp {
     private static final Logger LOG = LoggerFactory.getLogger(ClientAssignmentSolverApp.class);
 
     public static void main(String[] args) throws Exception {
-        LOG.info("Building seating plan problem from file (client:" + args[0] + ", aa:" + args[1] + ").");
+        LOG.info("Building client assignment problem from files (client:" + args[0] + ", aa:" + args[1] + ").");
         ClientAssignmentSolution planningProblem = ClientAssignmentSolutionFactory.createFromCsv(args[0], args[1]);
+        LOG.info("Building solver from file " + args[2]);
         Solver solver = SolverFactory.createFromXmlResource(args[2]).buildSolver();
         NewBestScoreListener newBestScoreListener = new NewBestScoreListener();
         solver.addEventListener(newBestScoreListener);
