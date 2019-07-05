@@ -23,8 +23,10 @@ public class ClientAssignmentSolverApp {
                 "\n" +
                     "Avg. Industries:  " +
                     String.format("%.2f", getAverageIndustriesPerPortfolio(newBestSolution)) +
-                    "    Size Deviation:  " +
+                    "    Workload Deviation:  " +
                     String.format("%.2f", getPortfolioSizeDeviation(newBestSolution)) +
+                    "    Churn Risk Assignments:  " +
+                    new ClientAssignmentScoreCalculator().getChurnyClientsWithChurnyAssociates(newBestSolution) +
                     "\n");
         }
     }

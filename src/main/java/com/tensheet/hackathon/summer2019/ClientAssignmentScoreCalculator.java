@@ -20,7 +20,7 @@ public class ClientAssignmentScoreCalculator implements EasyScoreCalculator<Clie
         return 0
             - getSumOfPortfolioSizeDeviationFromAverage(solution)
             - getSumOfAssociatesPerIndustry(solution)
-            - getChurnyClientsWithChurnyAssociates(solution)
+            - 2 * getChurnyClientsWithChurnyAssociates(solution)
             - getAssociatesWithExcessNonTechSavvyClients(solution)
             - getAssociatesWithExcessNonBookkeepingKnowledgeableClients(solution);
     }
@@ -46,7 +46,21 @@ public class ClientAssignmentScoreCalculator implements EasyScoreCalculator<Clie
     }
 
     public int getChurnyClientsWithChurnyAssociates(ClientAssignmentSolution solution) {
-        return 0;
+        int middleIndex = solution.getAccountingAssociates().size() / 2;
+        double medianChurn = solution.getAccountingAssociates()
+            .stream()
+            .mapToDouble(AccountingAssociate::getAverageRetentionPercent)
+            .sorted()
+            .toArray()[middleIndex];
+        return (int) solution.getClients()
+            .stream()
+            .filter(client ->
+                client.getChurnRisk() != null &&
+                    client.getAccountingAssociate() != null &&
+                    client.getChurnRisk() &&
+                    client.getAccountingAssociate().getAverageRetentionPercent() <= medianChurn
+            )
+            .count();
     }
 
     public int getSumOfAssociatesPerIndustry(ClientAssignmentSolution solution) {
