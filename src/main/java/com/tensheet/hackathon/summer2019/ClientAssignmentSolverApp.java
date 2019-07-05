@@ -7,6 +7,7 @@ import org.optaplanner.core.api.solver.event.SolverEventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Comparator;
 import java.util.stream.Collectors;
 
 public class ClientAssignmentSolverApp {
@@ -31,7 +32,10 @@ public class ClientAssignmentSolverApp {
         solver.solve(planningProblem);
         ClientAssignmentSolution solution = (ClientAssignmentSolution) solver.getBestSolution();
         LOG.info("Final best score: " + solution.getScore());
-        solution.getClients().forEach(client -> System.out.println(client.getCompany() + " → " + client.getAccountingAssociate().getFullName()));
+        solution.getClients()
+            .stream()
+            .sorted(Comparator.comparing(client -> client.getCompany().toLowerCase()))
+            .forEach(client -> System.out.println(client.getCompany() + " ⇒ " + client.getAccountingAssociate().getFullName()));
     }
 
     private static Double getAverageIndustriesPerPortfolio(ClientAssignmentSolution solution) {

@@ -43,8 +43,14 @@ public class ClientAssignmentSolutionFactory {
             }
             client.setAccountingAssociate(accountingAssociate);
 
+            // Skip companies with no names because it makes the output look bad
+            String company = clientRecord.get("company");
+            if (company == null || company.trim().length() == 0) {
+                continue;
+            }
+            client.setCompany(company);
+
             client.setId(Integer.parseInt(clientRecord.get("id")));
-            client.setCompany(clientRecord.get("company"));
             client.setStructure(clientRecord.get("structure"));
             client.setState(clientRecord.get("state"));
             client.setBenchVertical(clientRecord.get("bench_vertical_name"));
