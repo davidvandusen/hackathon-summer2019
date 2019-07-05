@@ -14,6 +14,12 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class ClientAssignmentSolverApp {
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
+    public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
+    public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
+    public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
+    public static final String ANSI_BLACK = "\u001B[30m";
 
     private static class NewBestScoreListener implements SolverEventListener<ClientAssignmentSolution> {
         @Override
@@ -26,13 +32,22 @@ public class ClientAssignmentSolverApp {
             System.out.println(
                 "\n" +
                     "Workload Deviation:  " +
+                    ANSI_RED_BACKGROUND + ANSI_BLACK + " " +
                     String.format("%.2f", getPortfolioSizeDeviation(newBestSolution)) +
+                    " " + ANSI_RESET +
                     "    Avg. Industries:  " +
+                    ANSI_BLUE_BACKGROUND + ANSI_BLACK + " " +
                     String.format("%.2f", getAverageIndustriesPerPortfolio(newBestSolution)) +
+                    " " + ANSI_RESET +
                     "    Churn Risk Assignments:  " +
+                    ANSI_CYAN_BACKGROUND + ANSI_BLACK + " " +
                     clientAssignmentScoreCalculator.getChurnyClientsWithChurnyAssociates(newBestSolution) +
+                    " " + ANSI_RESET +
                     "    “Personality” Portfolios:  " +
-                    personalityPortfolios);
+                    ANSI_PURPLE_BACKGROUND + ANSI_BLACK + " " +
+                    personalityPortfolios +
+                    " " + ANSI_RESET +
+                    "\n");
         }
     }
 
