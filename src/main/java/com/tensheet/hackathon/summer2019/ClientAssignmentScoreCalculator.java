@@ -4,6 +4,7 @@ import org.optaplanner.core.api.score.Score;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.optaplanner.core.impl.score.director.easy.EasyScoreCalculator;
 
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -38,11 +39,35 @@ public class ClientAssignmentScoreCalculator implements EasyScoreCalculator<Clie
     }
 
     public int getAssociatesWithExcessNonBookkeepingKnowledgeableClients(ClientAssignmentSolution solution) {
-        return 0;
+        int[] ints = solution.getClients()
+            .stream()
+            .filter(client -> client.getAccountingAssociate() != null)
+            .collect(Collectors.groupingBy(Client::getAccountingAssociate))
+            .values()
+            .stream()
+            .mapToInt(portfolio -> (int) portfolio.stream()
+                .filter(client -> client.getHasBookkeepingKnowledge() == false)
+                .count()
+            )
+            .toArray();
+        double averageNonKnowledgeable = Arrays.stream(ints).average().orElse(0.0);
+        return (int) Arrays.stream(ints).filter(count -> count > averageNonKnowledgeable).count();
     }
 
     public int getAssociatesWithExcessNonTechSavvyClients(ClientAssignmentSolution solution) {
-        return 0;
+        int[] ints = solution.getClients()
+            .stream()
+            .filter(client -> client.getAccountingAssociate() != null)
+            .collect(Collectors.groupingBy(Client::getAccountingAssociate))
+            .values()
+            .stream()
+            .mapToInt(portfolio -> (int) portfolio.stream()
+                .filter(client -> client.getTechSavvy() == false)
+                .count()
+            )
+            .toArray();
+        double averageNonTechy = Arrays.stream(ints).average().orElse(0.0);
+        return (int) Arrays.stream(ints).filter(count -> count > averageNonTechy).count();
     }
 
     public int getChurnyClientsWithChurnyAssociates(ClientAssignmentSolution solution) {

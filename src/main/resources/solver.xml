@@ -7,7 +7,7 @@
     <easyScoreCalculatorClass>com.tensheet.hackathon.summer2019.ClientAssignmentScoreCalculator</easyScoreCalculatorClass>
   </scoreDirectorFactory>
   <termination>
-    <secondsSpentLimit>15</secondsSpentLimit>
+    <secondsSpentLimit>60000</secondsSpentLimit>
   </termination>
   <constructionHeuristic>
     <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>

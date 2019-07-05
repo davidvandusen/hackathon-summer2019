@@ -19,15 +19,20 @@ public class ClientAssignmentSolverApp {
         @Override
         public void bestSolutionChanged(BestSolutionChangedEvent<ClientAssignmentSolution> event) {
             ClientAssignmentSolution newBestSolution = event.getNewBestSolution();
+            ClientAssignmentScoreCalculator clientAssignmentScoreCalculator = new ClientAssignmentScoreCalculator();
+            int nonBookkeepingKnowledgeableClients = clientAssignmentScoreCalculator.getAssociatesWithExcessNonBookkeepingKnowledgeableClients(newBestSolution);
+            int nonTechSavvyClients = clientAssignmentScoreCalculator.getAssociatesWithExcessNonTechSavvyClients(newBestSolution);
+            int personalityPortfolios = nonBookkeepingKnowledgeableClients + nonTechSavvyClients;
             System.out.println(
                 "\n" +
-                    "Avg. Industries:  " +
-                    String.format("%.2f", getAverageIndustriesPerPortfolio(newBestSolution)) +
-                    "    Workload Deviation:  " +
+                    "Workload Deviation:  " +
                     String.format("%.2f", getPortfolioSizeDeviation(newBestSolution)) +
+                    "    Avg. Industries:  " +
+                    String.format("%.2f", getAverageIndustriesPerPortfolio(newBestSolution)) +
                     "    Churn Risk Assignments:  " +
-                    new ClientAssignmentScoreCalculator().getChurnyClientsWithChurnyAssociates(newBestSolution) +
-                    "\n");
+                    clientAssignmentScoreCalculator.getChurnyClientsWithChurnyAssociates(newBestSolution) +
+                    "    “Personality” Portfolios:  " +
+                    personalityPortfolios);
         }
     }
 
