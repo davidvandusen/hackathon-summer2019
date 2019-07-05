@@ -25,8 +25,16 @@ public class ClientAssignmentScoreCalculator implements EasyScoreCalculator<Clie
             - getAssociatesWithExcessNonBookkeepingKnowledgeableClients(solution);
     }
 
-    private int getSumOfPortfolioSizeDeviationFromAverage(ClientAssignmentSolution solution) {
-        return 0;
+    public int getSumOfPortfolioSizeDeviationFromAverage(ClientAssignmentSolution solution) {
+        int avgClientsPerPortfolio = solution.getClients().size() / solution.getAccountingAssociates().size();
+        return solution.getClients()
+            .stream()
+            .filter(client -> client.getAccountingAssociate() != null)
+            .collect(Collectors.groupingBy(Client::getAccountingAssociate))
+            .values()
+            .stream()
+            .mapToInt(portfolio -> Math.abs(portfolio.size() - avgClientsPerPortfolio))
+            .sum();
     }
 
     public int getAssociatesWithExcessNonBookkeepingKnowledgeableClients(ClientAssignmentSolution solution) {
