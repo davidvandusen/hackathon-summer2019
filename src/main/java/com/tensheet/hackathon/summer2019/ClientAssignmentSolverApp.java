@@ -7,13 +7,15 @@ import org.optaplanner.core.api.solver.event.SolverEventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.stream.Collectors;
+
 public class ClientAssignmentSolverApp {
 
     private static class NewBestScoreListener implements SolverEventListener<ClientAssignmentSolution> {
         @Override
         public void bestSolutionChanged(BestSolutionChangedEvent<ClientAssignmentSolution> event) {
             ClientAssignmentSolution newBestSolution = event.getNewBestSolution();
-            LOG.info("New best score: " + newBestSolution.getScore());
+            System.out.println("\nAvg. Industries:  " + String.format("%.2f", getAverageIndustriesPerPortfolio(newBestSolution)) + "\n");
         }
     }
 
@@ -29,6 +31,22 @@ public class ClientAssignmentSolverApp {
         solver.solve(planningProblem);
         ClientAssignmentSolution solution = (ClientAssignmentSolution) solver.getBestSolution();
         LOG.info("Final best score: " + solution.getScore());
+        solution.getClients().forEach(client -> System.out.println(client.getCompany() + " → " + client.getAccountingAssociate().getFullName()));
+    }
+
+    private static Double getAverageIndustriesPerPortfolio(ClientAssignmentSolution solution) {
+        return solution.getClients()
+            .stream()
+            .collect(Collectors.groupingBy(Client::getAccountingAssociate))
+            .values()
+            .stream()
+            .mapToDouble(clientList -> clientList.stream()
+                .map(Client::getBenchVertical)
+                .distinct()
+                .count()
+            )
+            .average()
+            .orElse(0.0);
     }
 
 }
